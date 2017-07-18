@@ -12,7 +12,26 @@ Meteor.startup(() => {
   });
 });
 
+function onRoute(req, res, next) {
+  //take the token out of the url and find
+  //matching link in the link collection
+  const link = Links.findOne({token: req.params.token});
+
+  //If we find a link token, take the user to the long url
+  if (link) {
+    Links.update(link, {$inc: {clicks: 1}});
+    res.writeHead(307, {'Location' : link.url});
+    res.end();
+  } else {
+    next();
+  //If we don't find a token, take us to our normal react App#
+  }
+}
+// /localhost:3000/ no Match
+// /localhost:3000/peanutbutter
+const middleware = ConnectRoute(function(router) {
+  router.get('/:token', onRoute);
+});
 // use adds a middleware
 
-// WebApp.connectHandlers
-//   .use(req => console.log(req));
+WebApp.connectHandlers.use(middleware);
