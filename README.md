@@ -1,7 +1,8 @@
-#Meteor Training Project
+# Meteor Training Project
 
-##You should learn to communicate with server
+insecure package not installed
 
-* First we deinstall insecure package
++ download
++ and then
 
-<code> &lt meteor remove insecure</code>
+``` meteor run ```
